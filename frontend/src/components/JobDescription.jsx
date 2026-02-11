@@ -23,7 +23,7 @@ const JobDescription = () => {
                     </div>
                 </div>
 
-                <Button dishable={isApplied} className={`rounded-lg ${isApplied ? 'bg-gray-600 cursor-not-allowed' : 'bg-purple-700 hover:bg-purple-950'}`}>{isApplied ? 'Already Applied' : 'Apply Now'}</Button>
+                <Button dishable={isApplied} className={`rounded-lg ${isApplied ? 'bg-gray-600 cursor-not-allowed' : 'bg-green-700 hover:bg-green-800'}`}>{isApplied ? 'Already Applied' : 'Apply Now'}</Button>
             </div>
             <h1 className='border-b-2 border-b-gray-300 font-medium py-4'>Job Description</h1>
             <div className='my-4'>

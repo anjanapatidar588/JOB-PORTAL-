@@ -11,9 +11,12 @@ const useGetAllJobs = () => {
     useEffect(() => {
         const fetchAllJobs = async () => {
             try {
+
+                
                 const res = await axios.get(`${JOB_API_END_POINT}/get`, {
                 withCredentials: true
 });
+console.log("Full API Response:", res.data); 
 
                 if(res.data.success){
                     dispatch(setAllJobs(res.data.jobs));

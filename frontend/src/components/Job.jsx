@@ -7,9 +7,9 @@ import { useNavigate } from 'react-router-dom'
 
 
 
-const jobId = "yudjhfesjd"
+// const jobId = "yudjhfesjd"
 
-const Job = () => {
+const Job = ({job}) => {
 
     const navigate = useNavigate();
     return (
@@ -37,44 +37,42 @@ const Job = () => {
                 </Button>
 
                 <div>
-                    <h1 className="font-medium text-lg">Company Name</h1>
+                    <h1 className="font-medium text-lg">{job?.company?.name}</h1>
                     <p className="text-sm text-gray-500">India</p>
                 </div>
             </div>
 
             <div>
                 {/* job title */}
-                <h1 className="font-bold text-lg my-2">Title</h1>
+                <h1 className="font-bold text-lg my-2">{job?.title}</h1>
 
                 {/* description */}
                 <p className="text-sm text-gray-600">
-                    Lorem ipsum dolor sit amet consectetur, adipisicing elit.
-                    Assumenda eos provident a, dolorem perferendis ducimus
-                    deserunt nesciunt quae sequi. Ab?
+                   {job?.description}
                 </p>
             </div>
 
             <div className="flex items-center gap-2 mt-4">
                 <Badge className={"text-blue-700 font-bold"} variant="ghost">
-                    12 Positions
+                    {job?.position} Positions
                 </Badge>
                 <Badge className={"text-orange-500 font-bold"} variant="ghost">
-                    Part Time
+                   {job?.jobtype}
                 </Badge>
                 <Badge className={"text-purple-700 font-bold"} variant="ghost">
-                    24 LPA
+                    {job?.salary} LPA
                 </Badge>
             </div>
 
             <div className="flex items-center gap-4 mt-4">
                 <Button
-                    onClick={() => navigate(`/description/${jobId}`)}
+                    onClick={() => navigate(`/description/${job?._id}`)}
                     variant="outline"
                 >
                     Details
                 </Button>
 
-                <Button className="bg-purple-700 hover:bg-purple-900">
+                <Button className="bg-green-700 hover:bg-green-900">
                     Save For Later
                 </Button>
             </div>
