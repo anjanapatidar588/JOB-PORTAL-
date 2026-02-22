@@ -72,7 +72,9 @@ export const getJobById = async(req,res) => {
         console.log("GET ALL JOBS API HIT");
 
         const jobId = req.params.id;
-        const job = await JOB.findById(jobId);
+        const job = await JOB.findById(jobId).populate({
+            path : "applications"
+        });
 
         if(!job){
             return res.status(404).json({

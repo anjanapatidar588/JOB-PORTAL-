@@ -27,7 +27,7 @@ const Jobs = () => {
                     {/* Right side: job postings */}
                     <div className='flex-1 h-[88vh] overflow-auto pb-5'>
                         {
-                        allJobs.length === 0 ? (
+                        allJobs.length <= 0 ? (
                             <span>Job not found</span>
                         ) : (
                             <div className='grid grid-cols-3 gap-4'>
