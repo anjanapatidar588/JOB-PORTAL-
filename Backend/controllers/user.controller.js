@@ -60,7 +60,7 @@ export const login = async (req, res) => {
     if (!email || !password || !role) {
       return res.status(400).json({
         message: "Something is missing",
-        success: false
+        success: false,
       });
     }
 
@@ -83,14 +83,14 @@ export const login = async (req, res) => {
     if (role.toLowerCase() !== user.role.toLowerCase()) {
       return res.status(400).json({
         message: "Account does not exist with this role",
-        success: false
+        success: false,
       });
     }
 
     const token = jwt.sign(
       { userId: user._id },
       process.env.SECRET_KEY,
-      { expiresIn: '1d' }
+      { expiresIn: "1d" }
     );
 
     return res
@@ -98,18 +98,20 @@ export const login = async (req, res) => {
       .cookie("token", token, {
         maxAge: 24 * 60 * 60 * 1000,
         httpOnly: true,
+        sameSite: "lax",   //  IMPORTANT (for localhost)
+        secure: false,     //  false for localhost
       })
       .json({
         message: `Welcome back ${user.fullname}`,
         user,
-        success: true
+        success: true,
       });
 
   } catch (error) {
     console.log("LOGIN ERROR:", error);
     return res.status(500).json({
       message: "Internal server error",
-      success: false
+      success: false,
     });
   }
 };

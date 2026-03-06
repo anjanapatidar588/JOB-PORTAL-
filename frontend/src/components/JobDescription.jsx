@@ -1,24 +1,26 @@
-import { useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Badge } from './ui/badge'
 import { Button } from './ui/button'
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
-import { JOB_API_END_POINT, APPLICATION_API_END_POINT } from '@/utils/constant';
-import { setSingleJobs } from "../redux/jobSlice";
+import { APPLICATION_API_END_POINT, JOB_API_END_POINT } from '@/utils/constant';
+import { setSingleJobs } from '@/redux/jobSlice';
 import { useDispatch, useSelector } from 'react-redux';
-import { toast } from "react";   
+import { toast } from 'sonner';
 
 const JobDescription = () => {
 
     const { singleJob } = useSelector(store => store.job);
     const { user } = useSelector(store => store.auth);
 
-    const initiallyApplied =
-        singleJob?.applications?.some(application =>
-            application.applicant === user?._id
+    console.log(singleJob);
+
+    const isInitiallyApplied =
+        singleJob?.applications?.some(
+            application => application.applicant === user?._id
         ) || false;
 
-    const [isApplied, setIsApplied] = useState(initiallyApplied);
+    const [isApplied, setIsApplied] = useState(isInitiallyApplied);
 
     const params = useParams();
     const jobId = params.id;
@@ -26,27 +28,27 @@ const JobDescription = () => {
 
     const applyJobHandler = async () => {
         try {
-            const res = await axios.get(
+            const res = await axios.post(
                 `${APPLICATION_API_END_POINT}/apply/${jobId}`,
+                {},
                 { withCredentials: true }
             );
-
-            console.log(res.data);
 
             if (res.data.success) {
                 setIsApplied(true);
 
-                const updateSingleJob = {
+                const updatedSingleJob = {
                     ...singleJob,
                     applications: [
-                        ...singleJob.applications,
+                        ...(singleJob?.applications || []),
                         { applicant: user?._id }
                     ]
                 };
 
-                dispatch(setSingleJobs(updateSingleJob));
-                toast.success(res.data.message); 
+                dispatch(setSingleJobs(updatedSingleJob));
+                toast.success(res.data.message);
             }
+
         } catch (error) {
             console.log(error);
             toast.error(error.response?.data?.message);
@@ -54,8 +56,10 @@ const JobDescription = () => {
     }
 
     useEffect(() => {
+
         const fetchSingleJob = async () => {
             try {
+
                 const res = await axios.get(
                     `${JOB_API_END_POINT}/get/${jobId}`,
                     { withCredentials: true }
@@ -63,54 +67,59 @@ const JobDescription = () => {
 
                 if (res.data.success) {
                     dispatch(setSingleJobs(res.data.job));
+
                     setIsApplied(
-                        res.data.job.applications.some(application =>
-                            application.applicant === user?._id
+                        res.data.job.applications?.some(
+                            application => application.applicant === user?._id
                         )
                     );
                 }
+
             } catch (error) {
                 console.log(error);
             }
         }
 
         fetchSingleJob();
+
     }, [jobId, dispatch, user?._id]);
+
 
     return (
         <div className='max-w-7xl mx-auto my-10'>
+
             <div className='flex items-center justify-between'>
+
                 <div>
                     <h1 className='font-bold text-xl'>
                         {singleJob?.title}
                     </h1>
 
-                    <div className="flex items-center gap-2 mt-4">
-                        <Badge className={"text-blue-700 font-bold"} variant="ghost">
+                    <div className='flex items-center gap-2 mt-4'>
+
+                        <Badge className={'text-blue-700 font-bold'} variant="ghost">
                             {singleJob?.position} Positions
                         </Badge>
 
-                        <Badge className={"text-orange-500 font-bold"} variant="ghost">
+                        <Badge className={'text-[#F83002] font-bold'} variant="ghost">
                             {singleJob?.jobtype}
                         </Badge>
 
-                        <Badge className={"text-purple-700 font-bold"} variant="ghost">
-                            {singleJob?.salary}LPA
+                        <Badge className={'text-[#7209b7] font-bold'} variant="ghost">
+                            {singleJob?.salary} LPA
                         </Badge>
+
                     </div>
                 </div>
 
                 <Button
-                    onClick={applyJobHandler}
+                    onClick={isApplied ? null : applyJobHandler}
                     disabled={isApplied}
-                    className={`rounded-lg ${
-                        isApplied
-                            ? 'bg-gray-600 cursor-not-allowed'
-                            : 'bg-green-700 hover:bg-green-800'
-                    }`}
+                    className={`rounded-lg ${isApplied ? 'bg-gray-600 cursor-not-allowed' : 'bg-green-700 hover:bg-green-500'}`}
                 >
                     {isApplied ? 'Already Applied' : 'Apply Now'}
                 </Button>
+
             </div>
 
             <h1 className='border-b-2 border-b-gray-300 font-medium py-4'>
@@ -118,6 +127,7 @@ const JobDescription = () => {
             </h1>
 
             <div className='my-4'>
+
                 <h1 className='font-bold my-1'>
                     Role :
                     <span className='pl-4 font-normal text-gray-800'>
@@ -142,19 +152,19 @@ const JobDescription = () => {
                 <h1 className='font-bold my-1'>
                     Experience :
                     <span className='pl-4 font-normal text-gray-800'>
-                        {singleJob?.experienceLevel}
+                        {singleJob?.experience} yrs
                     </span>
                 </h1>
 
                 <h1 className='font-bold my-1'>
                     Salary :
                     <span className='pl-4 font-normal text-gray-800'>
-                        {singleJob?.salary}LPA
+                        {singleJob?.salary} LPA
                     </span>
                 </h1>
 
                 <h1 className='font-bold my-1'>
-                    Total Application :
+                    Total Applicants :
                     <span className='pl-4 font-normal text-gray-800'>
                         {singleJob?.applications?.length}
                     </span>
@@ -166,7 +176,9 @@ const JobDescription = () => {
                         {singleJob?.createdAt?.split("T")[0]}
                     </span>
                 </h1>
+
             </div>
+
         </div>
     )
 }

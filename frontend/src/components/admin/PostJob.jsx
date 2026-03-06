@@ -17,10 +17,10 @@ const PostJob = () => {
     const [input, setInput] = useState({
         title: "",
         description: "",
-        requirements: "",
+        requirments: "",
         salary: "",
         location: "",
-        jobType: "",
+        jobtype: "",
         experience: "",
         position: 0,
         companyId: ""
@@ -89,8 +89,8 @@ const PostJob = () => {
                             <Label>Requirements</Label>
                             <Input
                                 type="text"
-                                name="requirements"
-                                value={input.requirements}
+                                name="requirments"
+                                value={input.requirments}
                                 onChange={changeEventHandler}
                                 className="focus-visible:ring-offset-0 focus-visible:ring-0 my-1"
                             />
@@ -119,8 +119,8 @@ const PostJob = () => {
                             <Label>Job Type</Label>
                             <Input
                                 type="text"
-                                name="jobType"
-                                value={input.jobType}
+                                name="jobtype"
+                                value={input.jobtype}
                                 onChange={changeEventHandler}
                                 className="focus-visible:ring-offset-0 focus-visible:ring-0 my-1"
                             />

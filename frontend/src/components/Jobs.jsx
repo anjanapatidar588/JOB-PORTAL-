@@ -6,9 +6,18 @@ import { useSelector } from 'react-redux';
 
 const Jobs = () => {
 
-    const { allJobs } = useSelector((store) => store.job);
+    const { allJobs, searchedQuery } = useSelector((store) => store.job);
 
-    console.log("All Jobs Data:", allJobs);
+    // Filter logic
+    const filteredJobs = allJobs?.filter((job) => {
+        if (!searchedQuery) return true;
+
+        return (
+            job?.title?.toLowerCase().includes(searchedQuery.toLowerCase()) ||
+            job?.description?.toLowerCase().includes(searchedQuery.toLowerCase()) ||
+            job?.location?.toLowerCase().includes(searchedQuery.toLowerCase())
+        );
+    });
 
     return (
         <div>
@@ -17,17 +26,17 @@ const Jobs = () => {
             <div className='max-w-7xl mx-auto mt-5'>
                 <div className='flex gap-5'>
 
-                    {/* Left side: Filter */}
+                    {/* Filter Section */}
                     <div className='w-1/5'>
                         <FilterCard />
                     </div>
 
-                    {/* Right side: Job Listings */}
-                    <div className='flex-1 h-[88vh] overflow-auto pb-5'>
+                    {/* Jobs Section */}
+                    <div className='flex-1 h-[88vh] overflow-y-auto pb-5'>
 
-                        {Array.isArray(allJobs) && allJobs.length > 0 ? (
+                        {filteredJobs && filteredJobs.length > 0 ? (
                             <div className='grid grid-cols-3 gap-4'>
-                                {allJobs.map((job) => (
+                                {filteredJobs.map((job) => (
                                     <Job key={job?._id} job={job} />
                                 ))}
                             </div>

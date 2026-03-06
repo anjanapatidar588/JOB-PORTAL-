@@ -9,9 +9,6 @@ const Job = ({job}) => {
     const navigate = useNavigate();
     // const jobId = "lsekdhjgdsnfvsdkjf";
 
-       console.log("Company:", job?.company);
-       console.log("Logo:", job?.company?.logo);
-
     const daysAgoFunction = (mongodbTime) => {
         const createdAt = new Date(mongodbTime);
         const currentTime = new Date();
@@ -20,7 +17,6 @@ const Job = ({job}) => {
     }
     
     return (
-
         <div className='p-5 rounded-md shadow-xl bg-white border border-gray-100'>
             <div className='flex items-center justify-between'>
                 <p className='text-sm text-gray-500'>{daysAgoFunction(job?.createdAt) === 0 ? "Today" : `${daysAgoFunction(job?.createdAt)} days ago`}</p>
@@ -50,7 +46,7 @@ const Job = ({job}) => {
             </div>
             <div className='flex items-center gap-4 mt-4'>
                 <Button onClick={()=> navigate(`/description/${job?._id}`)} variant="outline">Details</Button>
-                <Button className="bg-green-700">Save For Later</Button>
+                <Button className="bg-green-800">Save For Later</Button>
             </div>
         </div>
     )
