@@ -8,10 +8,18 @@ import userRoute from "./routes/userRoute.js";
 import companyRoute from "./routes/companyRoute.js";
 import jobRoute from "./routes/jobRoute.js";
 import applicationRoute from "./routes/applicatonRoute.js";
+import notificationRoute from "./routes/notificationRoute.js";
+
+import http from "http";
+import { initSocket } from "./utils/socket.js";
 
 dotenv.config();
 
 const app = express();
+const server = http.createServer(app);
+
+// initialize socket.io
+initSocket(server);
 
 // middleware
 app.use(express.json());
@@ -31,10 +39,11 @@ app.use("/api/v1/user", userRoute);
 app.use("/api/v1/company", companyRoute);
 app.use("/api/v1/job", jobRoute);
 app.use("/api/v1/application", applicationRoute);
+app.use("/api/v1/notification", notificationRoute);
 
 const PORT = process.env.PORT || 8000;
 
-app.listen(PORT, () => {
+server.listen(PORT, () => {
   connectDB();
   console.log(`Server running at port ${PORT}`);
 });

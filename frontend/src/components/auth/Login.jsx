@@ -17,7 +17,7 @@ const Login = () => {
   const [input, setInput] = useState({
     email: "",
     password: "",
-    role: "",
+    role: "candidate",
   })
 
   const { loading } = useSelector(store => store.auth);
@@ -65,74 +65,75 @@ const Login = () => {
 }
 
   return (
-    <div>
+    <div className="min-h-screen bg-slate-50 flex flex-col justify-between">
       <Navbar />
-      <div className='flex items-center justify-center max-w-7xl mx-auto'>
+      <div className='flex items-center justify-center max-w-7xl mx-auto px-4 py-8 w-full'>
         <form
           onSubmit={submitHandler}
-          className='w-1/2 border border-gray-700 rounded-md p-4 my-10'
+          className='w-full max-w-md border border-slate-100 rounded-2xl p-8 my-6 bg-white shadow-md'
         >
-          <h1 className='font-bold text-xl mb-5'>Login</h1>
+          <div className="mb-6">
+            <h1 className='font-extrabold text-2xl text-slate-900'>Welcome Back</h1>
+            <p className='text-slate-500 text-sm mt-1'>Please log in to access your portal</p>
+          </div>
 
-          <div className='my-2'>
-            <Label>Email</Label>
+          <div className='my-4'>
+            <Label className="text-slate-700 font-medium mb-1.5 block">Email Address</Label>
             <Input
               type="email"
               name="email"
+              placeholder="name@example.com"
               value={input.email}
               onChange={changeEventHandler}
+              className="border-slate-200 focus-within:border-brand-600 focus-within:ring-brand-600"
             />
           </div>
 
-          <div className='my-2'>
-            <Label>Password</Label>
+          <div className='my-4'>
+            <Label className="text-slate-700 font-medium mb-1.5 block">Password</Label>
             <Input
               type="password"
               name="password"
+              placeholder="••••••••"
               value={input.password}
               onChange={changeEventHandler}
+              className="border-slate-200 focus-within:border-brand-600 focus-within:ring-brand-600"
             />
           </div>
 
-          {/* RADIO BUTTONS */}
-          <div className="flex gap-4 my-4">
-            <label className="flex items-center gap-2">
-              <input
-                type="radio"
-                name="role"
-                value="student"
-                checked={input.role === 'student'}
-                onChange={changeEventHandler}
-              />
-              Student
-            </label>
-
-            <label className="flex items-center gap-2">
-              <input
-                type="radio"
-                name="role"
-                value="recruiter"
-                checked={input.role === 'recruiter'}
-                onChange={changeEventHandler}
-              />
-              Recruiter
-            </label>
+          {/* ROLE SELECTION DROPDOWN */}
+          <div className="my-5">
+            <Label className="text-slate-700 font-medium mb-1.5 block">Select Account Type</Label>
+            <select
+              name="role"
+              value={input.role}
+              onChange={changeEventHandler}
+              className="w-full px-3 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-slate-800 text-sm focus:outline-none focus:ring-2 focus:ring-brand-600 focus:border-transparent transition-all cursor-pointer shadow-xs font-medium"
+            >
+              <option value="candidate">Candidate</option>
+              <option value="recruiter">Recruiter</option>
+            </select>
           </div>
 
+          {/* submit button */}
+          {
+            loading ? (
+              <Button disabled className='w-full my-4 btn-brand-gradient py-2.5 rounded-xl opacity-80'> 
+                <Loader2 className='mr-2 h-4 w-4 animate-spin'/> Logging in...
+              </Button>
+            ) : (
+              <Button type="submit" className='btn-brand-gradient font-semibold w-full my-4 py-2.5 rounded-xl shadow-md transition-all'>
+                Log In
+              </Button>
+            )
+          }
 
-  {/* loading  */}
-           {
-              loading ? <Button className='w-full my-4'> <Loader2 className='mr-2 h-4 w-4 animate-spin'/> Please wait</Button> : <Button type="submit" className='bg-black text-white w-full my-4'>
-            Login
-          </Button>
-           }
-
-          
-
-          <span className='text-sm'>
-            Don't have an account?{" "}
-            <Link to="/signup" className='text-blue-600'>Sign up</Link>
-          </span>
+          <div className="text-center mt-4">
+            <span className='text-sm text-slate-600'>
+              Don't have an account?{" "}
+              <Link to="/signup" className='text-brand-600 font-semibold hover:underline'>Sign up</Link>
+            </span>
+          </div>
         </form>
       </div>
     </div>

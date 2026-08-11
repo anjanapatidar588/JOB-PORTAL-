@@ -18,10 +18,11 @@ const userSchema = new mongoose.Schema({
         type : String,
         required : true
     },
-      role : {
-        type : String,
-        enum : ['student' , 'recruiter'],
-        required : true
+    role: {
+        type: String,
+        enum: ['candidate', 'employee', 'coordinator', 'recruiter', 'admin', 'student'],
+        default: 'candidate',
+        required: true
     },
       profile: {
        bio : {type : String},
@@ -34,6 +35,12 @@ const userSchema = new mongoose.Schema({
         default : ""
        }
     },
+    savedJobs: [
+        {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'JOB'
+        }
+    ]
 },{timestamps:true} );
 
 export const User = mongoose.model("User",userSchema);
