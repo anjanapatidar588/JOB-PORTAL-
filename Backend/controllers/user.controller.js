@@ -2,8 +2,7 @@ import { User } from '../models/user.model.js'
 import jwt from 'jsonwebtoken'
 import bcrypt from 'bcryptjs'
 import cloudinary from '../utils/cloudinary.js'
-import getDataURI from '../utils/dataUri.js'
-import getDataUri from '../utils/dataUri.js'
+import getDataUri from '../utils/datauri.js'
 
 
 
@@ -176,7 +175,7 @@ export const updateProfile = async (req, res) => {
 
     /* ---------- Resume Upload ---------- */
     if (file) {
-      const fileUri = getDataURI(file);
+      const fileUri = getDataUri(file);
       const cloudResponse = await cloudinary.uploader.upload(
         fileUri.content,
         { resource_type: "raw" }
