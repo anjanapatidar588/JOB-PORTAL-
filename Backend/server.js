@@ -28,7 +28,7 @@ app.use(cookieParser());
 
 //  CORRECT CORS CONFIG
 const corsOption = {
-  origin: "http://localhost:5173",
+  origin: "https://job-portal-five-gules.vercel.app",
   credentials: true,
 };
 
