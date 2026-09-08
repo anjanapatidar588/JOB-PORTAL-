@@ -1,6 +1,5 @@
-const BASE_URL = import.meta.env.VITE_API_BASE_URL !== undefined
-  ? import.meta.env.VITE_API_BASE_URL
-  : (import.meta.env.MODE === 'development' ? 'http://localhost:3000' : '');
+const envUrl = (import.meta.env.VITE_API_URL || import.meta.env.VITE_API_BASE_URL || '').trim();
+export const BASE_URL = (envUrl || 'https://job-portal-backend-o7fz.onrender.com').replace(/\/+$/, '');
 
 export const USER_API_END_POINT = `${BASE_URL}/api/v1/user`;
 export const JOB_API_END_POINT = `${BASE_URL}/api/v1/job`;

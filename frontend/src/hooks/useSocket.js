@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { io } from 'socket.io-client';
 import { addNotification, setNotifications } from '@/redux/notificationSlice';
-import { NOTIFICATION_API_END_POINT } from '@/utils/constant';
+import { NOTIFICATION_API_END_POINT, BASE_URL } from '@/utils/constant';
 import axios from 'axios';
 import { toast } from 'sonner';
 
@@ -32,7 +32,7 @@ const useSocket = () => {
             fetchNotifications();
 
             // 2. Initialize Socket connection for real-time notifications
-            socket = io('http://localhost:3000', {
+            socket = io(BASE_URL, {
                 query: {
                     userId: user._id
                 },
